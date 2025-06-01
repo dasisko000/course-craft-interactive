@@ -16,6 +16,11 @@ const Index = () => {
     console.log('Selected course:', course);
   };
 
+  const handleTabChange = (tab: 'courses' | 'ai-generator' | 'progress') => {
+    setActiveTab(tab);
+    console.log('Tab changed to:', tab);
+  };
+
   const totalProgress = Math.round(
     courses.reduce((acc, course) => acc + course.progress, 0) / courses.length
   );
@@ -112,7 +117,7 @@ const Index = () => {
   };
 
   return (
-    <Layout>
+    <Layout activeTab={activeTab} onTabChange={handleTabChange}>
       <div className="max-w-7xl mx-auto">
         {/* Welcome Section */}
         <div className="glass-card mb-8 text-center">
@@ -141,7 +146,7 @@ const Index = () => {
         {/* Navigation Tabs */}
         <div className="flex space-x-1 p-1 glass rounded-lg mb-8 w-fit">
           <Button
-            onClick={() => setActiveTab('courses')}
+            onClick={() => handleTabChange('courses')}
             variant={activeTab === 'courses' ? 'default' : 'ghost'}
             className={`${
               activeTab === 'courses'
@@ -153,7 +158,7 @@ const Index = () => {
             Courses
           </Button>
           <Button
-            onClick={() => setActiveTab('ai-generator')}
+            onClick={() => handleTabChange('ai-generator')}
             variant={activeTab === 'ai-generator' ? 'default' : 'ghost'}
             className={`${
               activeTab === 'ai-generator'
@@ -165,7 +170,7 @@ const Index = () => {
             AI Generator
           </Button>
           <Button
-            onClick={() => setActiveTab('progress')}
+            onClick={() => handleTabChange('progress')}
             variant={activeTab === 'progress' ? 'default' : 'ghost'}
             className={`${
               activeTab === 'progress'

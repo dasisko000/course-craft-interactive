@@ -3,15 +3,20 @@ import React from 'react';
 import { Book, BookOpen, Search, Calendar, Circle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
+interface SidebarProps {
+  activeTab: string;
+  onTabChange: (tab: 'courses' | 'ai-generator' | 'progress') => void;
+}
+
 const menuItems = [
-  { icon: BookOpen, label: 'Dashboard', active: true },
-  { icon: Book, label: 'My Courses', active: false },
-  { icon: Search, label: 'AI Generator', active: false },
-  { icon: Calendar, label: 'Schedule', active: false },
-  { icon: Circle, label: 'Progress', active: false },
+  { icon: BookOpen, label: 'Dashboard', key: 'courses' },
+  { icon: Book, label: 'My Courses', key: 'courses' },
+  { icon: Search, label: 'AI Generator', key: 'ai-generator' },
+  { icon: Calendar, label: 'Schedule', key: 'progress' },
+  { icon: Circle, label: 'Progress', key: 'progress' },
 ];
 
-export const Sidebar: React.FC = () => {
+export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
   return (
     <aside className="w-64 glass border-r border-white/10 p-6">
       <div className="space-y-6">
@@ -27,12 +32,13 @@ export const Sidebar: React.FC = () => {
           {menuItems.map((item, index) => (
             <Button
               key={index}
-              variant={item.active ? "default" : "ghost"}
+              variant={activeTab === item.key ? "default" : "ghost"}
               className={`w-full justify-start space-x-3 ${
-                item.active 
+                activeTab === item.key 
                   ? 'bg-gradient-to-r from-electric-blue to-electric-purple hover:from-electric-blue/80 hover:to-electric-purple/80' 
                   : 'hover:bg-white/10'
               }`}
+              onClick={() => onTabChange(item.key as 'courses' | 'ai-generator' | 'progress')}
             >
               <item.icon className="w-4 h-4" />
               <span>{item.label}</span>
